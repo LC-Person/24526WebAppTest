@@ -7,7 +7,7 @@ const url = require('url');
 const { stringify } = require('node:querystring');
 
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = 3024;
 
 function navWrite () {
     content = new Stack;
