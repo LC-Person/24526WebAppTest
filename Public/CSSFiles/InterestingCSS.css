@@ -123,7 +123,6 @@ hr{
 }
 .LeftBar{
     background-color: #181818;
-    float:left;
     width: 15%;
     height: max-content;
     display: inline-block;
@@ -138,7 +137,6 @@ hr{
 .content{
     
     border-radius: 10px;
-    float:right;
     display: inline-block;
     width: 80%;
     text-align: left;
