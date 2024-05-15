@@ -6,7 +6,13 @@ const path = require('path');
 const url = require('url');
 const { stringify } = require('node:querystring');
 
+if (false){
 const hostname = '127.0.0.1';
+}
+else{
+const hostname = '0.0.0.0';
+}
+
 const port = 3024;
 
 function navWrite () {
