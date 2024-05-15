@@ -55,7 +55,7 @@ function writeBody(req, url){
 function writeFooter(){
     foot = ""
     return "<footer>\n" + foot + "\n</footer>"
-}
+}asadasdsd
 
 function getContent(filepath){
   extname = path.extname(filepath);
