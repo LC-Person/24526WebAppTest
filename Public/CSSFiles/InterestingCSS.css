@@ -180,6 +180,13 @@ hr{
     background-color: #444444;
     border-radius: 20px;
 }
+.ProjectCards a{
+    text-decoration: none;
+}
+
+.ProjectCards p{
+    color: white;
+}
 .ProjectCards:hover{
     background-color: #FCAE1E;
 }
@@ -200,7 +207,7 @@ hr{
     margin-left: 10px;
     margin-top: 5px;
     margin-right: 1px;
-
+    border-radius: 20px;
 }
 .WideCardContent{
     display: inline-block;
