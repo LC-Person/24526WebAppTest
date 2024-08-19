@@ -44,29 +44,29 @@ const server = createServer((req,res)=>{
     res.statusCode = 200;
 
     const ParcedURL = url.parse(req.url, true);
+    console.log(`parced url ${ParcedURL.path}`)
     contentType = getContent(ParcedURL.path);
-    //console.log(req.url);
-    //console.log(ParcedURL);
+
     if (contentType != DEFAULT_CONTENT){
       //really want to put '' in secure
-      temp = SecureFileVerify(ParcedURL.path)
-      if (temp != null){
+      const data = SecureFileVerify(ParcedURL.path)
+      if (data != null){
         res.setHeader("Content-Type", contentType);
-        res.end(temp);
+        res.end(data);
       }
       else { contentType = "yeet";} 
     }
     else
     {
         res.setHeader("Content-Type","text/html"); 
-        res.write('<html lang="en"\n>');
+        res.write('<!doctype HTML>\n<html lang="en"\n>');
         
         res.write(writeHead());
         res.write(writeBody(req, ParcedURL.path));
         res.write(writeFooter());
         
         res.end('\n</html>');
-      
+        
     }
 });
 
