@@ -93,31 +93,47 @@ body{
     background-color: white;
     border: solid black 5px;
     border-radius: 10px;
-    height: 30rem;
+    height: 25rem;
     display: flex;
     overflow-x: scroll;
 }
 .ProjectCards{
     height: 90%;
-    margin: 10px;
-    padding: 10px;
+    min-width: 35%;
+    margin-top: 1%;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     display:inline-block;
     text-align: center;
+    justify-content: space-between;
     background-color: #aaaaaa;
-    border-radius: 20px;
+    border-radius: 20px; 
+    box-sizing: border-box; 
+    overflow: hidden;
 }
 
 .ProjectCards a{
     text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .ProjectCards img{
     max-height: 80%;
+    max-width: 90%;
+    object-fit: contain;
+    padding-bottom: 1%;
+    margin-top: 5px;
+    margin: auto 2px;
 }
 
 .ProjectCards p{
-    margin-top: 1%;
+    margin: 0;
+    margin-top: auto !important;
     color: white;
+    padding-bottom:0 0 1px 0 !important;
 }
 .ProjectCards:hover{
     background-color: #FCAE1E;
