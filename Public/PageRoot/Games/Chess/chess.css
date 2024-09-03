@@ -1,0 +1,33 @@
+.Board{
+    height: 600px;
+    width: 600px;
+    max-width: 95%;
+    max-height: 95%;
+    background-color: aqua;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+    border: 1px solid black;
+    
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Board div{
+    height: 12.5%;
+    width:  12.5%;
+    text-align: center;
+    font-size: xx-large;
+    -webkit-text-stroke: 0.5px black; 
+}
+.Board div:hover{
+    background-color: peru !important;
+}
+.White {
+    background-color: white ;
+}
+.Black {
+    background-color: rgb(133, 103, 4) ;
+}

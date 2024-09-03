@@ -61,9 +61,12 @@ function writeBody(req, url){
     case ("/blog/blogs/helloworld"):
       body += SecureFileVerify('/Public/PageRoot/Blog/Blogs/HelloWorld.html');
       break;
-    case ("/games"):
-      body+= SecureFileVerify('/Public/PageRoot/Games/GamesHome.html')
-      break
+      case ("/games"):
+        body+= SecureFileVerify('/Public/PageRoot/Games/GamesHome.html')
+        break
+      case ("/games/chess"):
+        body+= SecureFileVerify('/Public/PageRoot/Games/Chess/chess.html')
+        break
     default:  
       body += SecureFileVerify('/Public/PageRoot/Other/404.html')
     }
