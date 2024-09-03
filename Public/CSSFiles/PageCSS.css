@@ -180,3 +180,32 @@ body{
 .Block-Text p {
     padding-left: 10px;
 }
+.Block-Code{
+    background-color: #444444;
+    font-size: 0.8rem;
+    margin: 0.2rem;
+    border-radius: 10px;
+    width: 60%;
+    font-family: 'Lucida Console';
+    color: white;
+}
+
+.Block-Code h1{
+    text-decoration: underline dashed;
+    margin-top: 0;
+    padding-left: 0.5rem;
+    background-color: #111111;
+    font-size: 1rem;
+    color: #FFBF00
+}
+
+.Block-Code p {
+    background-color: #444444;
+    margin: 0;
+    padding-top: 0.1rem;
+    padding-bottom: 0.3rem;
+    padding-left: 1rem;
+    height: 20%;
+    overflow-x: auto;
+    white-space: nowrap;
+}

@@ -4,7 +4,9 @@
         <h1>HelloWorld.html!</h1>
         <h5>15/8/24</h5>
         <p>Welcome to [insert name here]!</p>
-        <p>Interesting introduction but not inacurate since at the time of posting this update I have not yet decided on a name to this web page project, but it does not matter right now since it is still on development. On to the important bits:</p>
+        <p>
+            Interesting introduction but not inaccurate since at the time of posting this update I have not yet decided on a name for this web page project, but it does not matter right now since it is still in development. On to the important bits:
+        <p>
         <ul>
             <li> what are the plans for the website?</li>
             <li> How is this website being ran?</li>
@@ -15,40 +17,128 @@
     <div class="Block-Text">
         <h2>What are the plans for the website?</h2>
         <p>
-            The main reason I started to develop this website was to populate it as a portafolio of cool things i have done, however I also want to build it as if it was creating services and not just a 90s web page vissualy unapealing.
+            The main reason I started to develop this website was to populate it as a portfolio of cool things i have done, however I also want to build it as if it was creating services and not just a 90s web page visually appealing.
         </p>
         <p>
-            Overtime I want to implement games to the pages, building interactive games that you the user could play either alone or multiplayer localy or over the internet.
+            Overtime I want to implement games to the pages, building interactive games that the user could play either alone or multiplayer locally or over the internet.
         </p>
         <p>
-            I want to Implement some sort of interactive Machine learning algorithm. I am currently undecided on what kind of project i want to tackle, creating an LLM chat-bot is reasoruces intencive and everyone is also trying to build this so its kinda oversaturated. I think i might build a simulator of some sort but that is in the future.
+            I want to Implement some sort of interactive Machine learning algorithm. I am currently undecided on what kind of project I want to tackle. Creating an LLM chat-bot is resource intensive and everyone is also trying to build this so it's kinda oversaturated. I think I might build a simulator of some sort but that is in the future.
         </p>
         <p>
-            I want to build an api that allowes users to get information from hosted games and maybe one that is able to return data from the ML algorithm i build. this would require setting up databases and would mostl likely take a long time to fully implement since the projects need to be created.
+            I want to build an api that allows users to get information from hosted games and maybe one that is able to return data from the ML algorithm i build. this would require setting up databases and would most likely take a long time to fully implement since the projects need to be created.
         </p>
     </div>
 
     <div class="Block-Text">
         <h2>How is this website being ran?</h2>
         <p>
-            At the time of writing this article there has been a prevevious prototype website already develped. In this previous version I used the web page <a href="https://render.com">render.com</a>, this page allowes you to upload a github repositiory that contains node.js code to render a node-app online. The render page is a good way to test how the server in runs production before spending reasorces alocating a dedicated machine to host the page. The old page should not be accessible by the time you are reading this but here is a quick snapshot of the old page!
+            At the time of writing this article there has been a prevevious prototype website already develped. In this previous version I used the web page <a href="https://render.com">render.com</a>, this page allowes you to upload a github repositiory that contains node.js code to render a node-app online. The render page is a good way to test how the server in runs production before spending reasorces alocating a dedicated machine to host the page full-time. The old page should not be accessible by the time you are reading this but here is a quick snapshot of the old page!
         </p>
         <img src="/Public/images/firstSite.png" alt="[first-design]" style="max-width: 80%; margin-left: auto; margin-right: auto;"/>
         <p>
-            To keep track of version changes I use my personal github account to create a repository in which I am able to upload changes and updates for the pages. Using github has been a greate experiance more so given that I can directly push changes and simply request an update on the render dashboard.
-        </p>
+            To keep track of version changes, I use my personal GitHub account to create a repository where I can upload changes and updates for the pages. Using GitHub has been a great experience, especially since I can directly push changes and easily request updates on the render dashboard.        </p>
         <p>
-            I am using node.js to handle requests by the user. I thought that using something different like wordpress or a webpage editor like wix, it would be too easy and somewhat restrictive since i would not be able to have full control. coding something with multiple purpucess would be a nightmare to navigate and eddit code. I am not using any special frameworks like angular nor handlebars, the reasoning is that I what to see what i can get away with using the bare minimum components.
+            I'm using Node.js to handle user requests. I considered using platforms like WordPress or webpage editors like Wix, but I felt that would be counterproductive for a portfolio, which should demonstrate my technical skills. I'm not using any special frameworks like Angular or Handlebars; my goal is to see what I can achieve with the bare minimum components.        </p>
+        <p>
+            It might go without saying that I'm using HTML to write out the page components and CSS to make the website look more lively, but these are essential for a professional-looking page. For anyone new to the web development scene, this is the first and most important step. However, you also need a machine to host the site and code to serve the page so it can be accessed via the internet, which is why learning a programming language and using a hosting service like Render is crucial.        
         </p>
-
         <p>In summary: render.com + github.com + node.js + html + css = [insert name here]</p>
     </div>
 
     <div class="Block-Text">
         <h2>How am I structuring the website?</h2>
         <p>
-            Now the fun part! These pages are built using a little html and some css to look this nice. we will be going over this in a little but first lets look at
+            Now the fun part! These pages are built using a little html and some css to look this nice. we will be going over this in a little but first lets look at how each page is rendered:
         </p>  
+        <img src="/Public/images/PageLayout.png" alt="[HTML-layout]" style="max-width: 80%; margin-left: auto; margin-right: auto;">
+        <p>
+            As any good HTML the page is subdivided into the three main components: head, body and footer. In my page I chose to put metadata in the header, all relevant content of the page in the body and left the footer blank for future development
+        </p>
+        <p> 
+            The Body itself is subdivided into Block components I created as a div class, they hold special css that allows me to determine how I want to render those blocks, for example this text you are currently reading is inside a text block...
+
+        </p>
+        <div class="Block-Code">
+            <h1>example language</h1>
+            <p> and this </p>
+            <p> an example Code-Block</p>
+        </div>
+        <p>
+            The block structure allows me to generate content in a more dynamic way allowing me to concatenate pages easily and seamlessly. using this structure allows me to find and modify blocks with code faster:
+        </p>
+        <div class="Block-Code" id="exampleBlock1" style="width: 40%; background-color: white;">
+            <h1>JavaScript</h1>
+            <p>const Cblock = document.getElementById('exampleBlock1')</p>
+            <p>let x = 0;</p>
+            <p>let increment = 0.2;</p>
+            <p>let flip = true;</p>
+            <p>const moveFn = ()=>{</p>
+            <p>Cblock.style.paddingLeft = `${x}%`</p>
+            <p>if (flip){ x+= increment }</p>
+            <p>else { x-= increment }</p>
+            <p>if (x >= 80){ flip=false }</p>
+            <p>else if (x <= 0) { flip = true }</p>
+            <p>}</p>
+            <p>setInterval(moveFn, 10)</p>
+        </div>
+        <script>
+            const Cblock = document.getElementById('exampleBlock1')
+            let x = 0;
+            let increment = 0.2;
+            let flip = true;
+            const moveFn = ()=>{
+                Cblock.style.paddingLeft = `${x}%`
+                if (flip){ x+= increment }
+                else { x-= increment }
+                
+                if (x >= 60){ flip=false }
+                else if (x <= 0) { flip = true }
+            }
+            setInterval(moveFn, 10)
+
+        </script>
+        <p>
+            Not a direct example since using queryselector would render all other blocks unreadable, but same message :)
+        </p>
+        <p>
+            Anyhow, that is the main gist behind the structure of the website, now we will go over how the page is built! I created a js script that builds the pages based on the link that the user provides, the main function determines whether the request is a page or a file and then sends it to the user. here is a visual aid:
+        </p>
+        
+        <img src="/Public/images/PageBuilder.png" alt="[page trancitions]" style="margin-left: auto; margin-right: auto;">
+        
+        <p>
+            Building components is great because it allows modulability and provides structure to the page, earlier in this blog I mentioned that this site has the capability of adding pages on top of eachother near effortlessly, this is because of the pagebuilder.js, here is a simplified version:
+        </p>
+        <div class="Block-Code">
+            <h1>JavaScript</h1>
+            <p>function writeBody(req, url){</p>
+            <p style="padding-left: 2rem;">let body = '';</p>
+            <p style="padding-left: 2rem;">body =  '&lt;body>'+ navWrite()</p>
+            <p style="padding-left: 2rem;">body += "&lt;div class='Content'>"</p>
+            <p style="padding-left: 2rem;">switch(url){</p>
+            <p style="padding-left: 3rem;" >case ('/home'):</p>
+            <p style="padding-left: 4rem;">body += SecureFileVerify('/Public/PageRoot/Home/HomeTemplate.html');</p>
+            <p style="padding-left: 4rem;">break;</p>
+            <p style="padding-left: 3rem;" >default:</p>
+            <p style="padding-left: 4rem;">body += SecureFileVerify('/Public/PageRoot/Other/404.html')</p>
+            <p style="padding-left: 4rem;">break;</p>
+            <p style="padding-left: 2rem;">};</p>
+            <p style="padding-left: 2rem;">body += '&lt;/div>&lt;/body>'</p>
+            <p style="padding-left: 2rem;">return body ></p>
+        </div>
+        <p>
+            The PageBuilder script works by attaching relevant information of the page into a body variable such that by the end of the body you have the fully structured page. we parse the url and return the items in that page by navigating the switch and end by sending back data to the server object in node. In the last step the server sends the finished page to the user, if you would like to see what the body object looks like can try to navigate to "www.[page].[ext]<a href="/Public/PageRoot/Blog/Blogs/HelloWorld.html">/Public/PageRoot/Blog/Blogs/HelloWorld.html</a>" this will take you to the raw file without any styles (disclaimer: only for this website, this most likely does not work on other sites unless they implement it). Doing the page in this format has the additional benefit of easley adding new pages by adding just a few extra lines of code.
+        </p>
+        <p>
+            This does pose security risks, i.e. you could theoretically try to get any file that is currently stored in the server, however I have taken some precautions to avoid this from happening.
+        </p>
+        <p>
+            I would like to thank you for reading my first blog and will continue to update the blogs as I continue to improve the site. This was a quick overview but i'll provide more details as we go.
+        </p>
+        <p>
+            see ya later!
+        </p>
     </div>
 
 </div>

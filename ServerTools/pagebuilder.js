@@ -24,7 +24,7 @@ function SecureFileVerify(filepath){
     }
     
     console.log("File not found: {" +__dirname+filepath+"}")
-    return '<div><h1>404 page not found</h1><p>the particular item you requested was not found</p></div>';
+    return writeHead() + writeBody({} ,"") + writeFooter();
   }
 
 function writeHead(){
@@ -53,7 +53,7 @@ function writeBody(req, url){
       body += SecureFileVerify('/Public/PageRoot/Home/HomeTemplate.html');
       break;
     case ("/about"):
-      body += SecureFileVerify('/Public/PageRoot/About/back.html')
+      body += SecureFileVerify('/Public/PageRoot/About/About.html')
       break;
       case ("/blog"):
       body += SecureFileVerify('/Public/PageRoot/Blog/BlogHome.html')
