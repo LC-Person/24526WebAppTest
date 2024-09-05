@@ -10,6 +10,12 @@ export class chessBoard{
     }
     
     resetBoard(){
+        this.pieces = []
+        this.piecesCaptured = []
+        this.turn = 0;
+        this.lastPieceTuched = ""
+        this.promotePieceIdx = 0
+
         for( let i =0; i<8; i++)
         {
             this.pieces.push( new Pawn(1, i, `${i}wp`, false))
@@ -142,6 +148,7 @@ export class Pawn extends Piece{
         super(rank, column, id, colour)
         this.value = 1
         this.endGoal = colour ? 1 : 6;
+        this.img="/Public/PageRoot/Games/Chess/chessImg/P"+ (colour?"black":"white") + ".png"
     }
 
     moveForward(state, color){
@@ -193,6 +200,7 @@ export class Knight extends Piece{
     constructor(rank, column, id, colour){
         super(rank, column, id, colour)
         this.value = 3
+        this.img="/Public/PageRoot/Games/Chess/chessImg/N"+ (colour?"black":"white") + ".png"
     }
 
     getYCoords(){ return [this.rank + 1, this.rank + 2, this.rank - 1,this.rank - 2] }
@@ -233,6 +241,7 @@ export class Bishop extends Piece{
     constructor(rank, column, id, colour){
         super(rank, column, id, colour)
         this.value = 3
+        this.img="/Public/PageRoot/Games/Chess/chessImg/B"+ (colour?"black":"white") + ".png"
     }
     
     getDiagonals(state, colorStop){
@@ -260,6 +269,7 @@ export class Rook extends Piece{
     constructor(rank, column, id, colour){
         super(rank, column, id, colour)
         this.value = 5
+        this.img="/Public/PageRoot/Games/Chess/chessImg/R"+ (colour?"black":"white") + ".png"
     }
     getLines(state, colorStop){
         let moves = []
@@ -287,6 +297,7 @@ export class Queen extends Piece{
     constructor(rank, column, id, colour){
         super(rank, column, id, colour)
         this.value = 9
+        this.img="/Public/PageRoot/Games/Chess/chessImg/Q"+ (colour?"black":"white") + ".png"
     }
 
     static getLines(state, xIncrement, yIncrement, rank, col, colorStp){
@@ -336,6 +347,7 @@ export class King extends Piece{
     constructor(rank, column, id, colour){
         super(rank, column, id, colour)
         this.value = 14
+        this.img="/Public/PageRoot/Games/Chess/chessImg/K"+ (colour?"black":"white") + ".png"
     }
 
     kingWalk(state, frendly){

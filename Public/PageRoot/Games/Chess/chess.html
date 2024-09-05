@@ -1,8 +1,64 @@
 
 <link rel="stylesheet" href="/Public/PageRoot/Games/Chess/chess.css">
 <div class="Block">
-    <div id="ChessGame" class="Board">
-        
+    <div class="GameMenu" id="ChessMenu">
+        <fieldset id="ChessSettings">
+            <legend>Game Settings</legend>
+            <div id="multiplayer">
+                <h2>Player Options:</h2>
+                <input type="radio" id="PnP" name="PlayerType" value="0" checked/>
+                <label for="PnP">Pass-N-Play</label>
+                <input type="radio" id="VC" name="PlayerType" value="1"/>
+                <label for="VC">Vs Computer</label>
+                <input type="radio" id="VO"name="PlayerType" value="2" hidden></input>
+                <label for="VO" hidden>vs OnlineFriend</label>
+            </div>
+            <div id="chosenColor" hidden>
+                <h2>Color Options:</h2>
+                <input type="radio" id="White" name="Color" value="0" checked />
+                <label for="White">White</label>
+                <input type="radio" id="Black" name="Color" value="1" />
+                <label for="Black">Black</label>
+            </div>
+            <div id="BotDificulty" hidden>
+                <h2>COM Dificulty:</h2>
+                <input type="radio" id="VE" name="Dificulty" value="0" checked />
+                <label for="VE">Very Easy</label>
+                <input type="radio" id="EZ" name="Dificulty" value="1" />
+                <label for="EZ">Easy</label>
+                <input type="radio" id="N" name="Dificulty" value="2" />
+                <label for="N">Normal</label>
+                <input type="radio" id="D" name="Dificulty" value="3" />
+                <label for="D">Dificult</label>
+                <input type="radio" id="I" name="Dificulty" value="4" />
+                <label for="I">Insane</label>
+            </div>
+            <div id="OnlineMultyplayer" hidden>
+                <H2>Lobby Settings:</h2>
+                <div id="OnlineMatch">
+                    <input type="radio" name="OnlineHost" value="0" checked>Join</input>
+                    <label for=""></label>
+                    <input type="radio" name="OnlineHost" value="1" >Host</input>
+                    <label for=""></label>
+                </div>
+                <div id="Host">
+                    <p id ="hostP">Hosting match with:</p>
+                    <p id="hostOut">XXXX:xxx</p>
+                </div>
+                <div id="Join">
+                    <p id="joinP">Join Match:</p>
+                    <input id="joininpt" type="text" name="gameIp" placeholder="Enter IP of host"></input>
+                
+                </div>
+            </div>
+            <button id="GameStart">Start</button>
+        </fieldset>
+    </div>
+    <div id="ChessContainer" hidden>
+        <p>Chess Time!</p>
+        <div id="ChessGame" class="Board">
+            
+        </div>
     </div>
 
 </div>
