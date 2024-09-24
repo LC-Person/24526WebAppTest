@@ -10,11 +10,7 @@ export class chessBoard{
     }
     
     resetBoard(){
-        this.pieces = []
-        this.piecesCaptured = []
-        this.turn = 0;
-        this.lastPieceTuched = ""
-        this.promotePieceIdx = 0
+        this.emptyBoard()
 
         for( let i =0; i<8; i++)
         {
@@ -42,6 +38,14 @@ export class chessBoard{
         this.pieces.push(new King(7,4, `${0}bk`, true))
         this.pieces.push(new Queen(7,3, `${1}bq`, true))       
 
+    }
+
+    emptyBoard (){
+        this.pieces = []
+        this.piecesCaptured = []
+        this.turn = 0;
+        this.lastPieceTuched = ""
+        this.promotePieceIdx = 0
     }
 
     getState(){
@@ -77,6 +81,8 @@ export class chessBoard{
     }
 
     updateMove(x,y, pieceId){
+        if (this.lastPieceTuched === "King") { return }
+
         const possiblyCapturedPiece = this.findPiece(x,y);
         const pieceMoved = this.getPiece(pieceId);
         
@@ -96,9 +102,14 @@ export class chessBoard{
             if (possiblyCapturedIdx > -1) {    
                 this.piecesCaptured.push(this.pieces.splice(possiblyCapturedIdx, 1))
                 this.lastPieceTuched = "ded"
+                if (possiblyCapturedPiece.constructor.name === "King"){
+                    this.lastPieceTuched = "King"
+                }
+
                 console.log(`Piece ${possiblyCapturedPiece.constructor.name} Captured`)
             }
         }
+        
 
         if (pieceMoved.constructor.name === 'Pawn' && pieceMoved.rank === pieceMoved.endGoal){
             //promote
@@ -269,6 +280,7 @@ export class Rook extends Piece{
     constructor(rank, column, id, colour){
         super(rank, column, id, colour)
         this.value = 5
+        this.hasMoved = false
         this.img="/Public/PageRoot/Games/Chess/chessImg/R"+ (colour?"black":"white") + ".png"
     }
     getLines(state, colorStop){
@@ -347,6 +359,7 @@ export class King extends Piece{
     constructor(rank, column, id, colour){
         super(rank, column, id, colour)
         this.value = 14
+        this.hasMoved = false
         this.img="/Public/PageRoot/Games/Chess/chessImg/K"+ (colour?"black":"white") + ".png"
     }
 
@@ -368,11 +381,22 @@ export class King extends Piece{
         return moves
     }
 
+    castle(state, frendly){
+        let moves = []
+        if(!this.hasMoved) {
+            let rank = this.color? 7:0;
+            if (state[rank][0] === frendly){ moves.push(['0-0-0'])}
+            if (state[rank][7] === frendly){ moves.push(['0-0'])}
+        }
+        return moves
+    }
+
     getMoves(state){
         let possibleMoves = []
         const colorteam = this.color? 'B' : 'W';
 
         this.kingWalk(state, colorteam).forEach(el => possibleMoves.push(el))
+        this.castle(state, colorteam).forEach(el => possibleMoves.push(el))
 
         return possibleMoves
     }

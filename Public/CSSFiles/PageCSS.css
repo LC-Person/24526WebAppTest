@@ -5,6 +5,9 @@ body{
     font-size: x-large;
 }
 
+img {
+    color:red;
+}
 .warning{
     text-align: center;
     display: block;

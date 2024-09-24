@@ -36,19 +36,19 @@
     max-height: 100%;
 }
 
-#ChessSettings{
+.GameMenu{
     background-color: gray;
     margin: 0;
     margin-bottom: 20px;
     font-size: medium;
 }
-#ChessSettings legend{
+.GameMenu legend{
     background-color: white;
     border-radius: 5px;
     border: thin solid black;
 }
 
-#ChessSettings button{
+.GameMenu button{
     margin-top: 20px;
     width: 30%;
     border-radius: 5px;

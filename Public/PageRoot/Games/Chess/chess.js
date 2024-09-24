@@ -12,6 +12,11 @@ const hostMenu = document.getElementById('Host')
 const ipPeregraph = document.getElementById('hostOut')
 const joinMenu = document.getElementById('Join')
 
+const winnerContainer = document.getElementById("winnerContainer")
+const winnerMessage = document.getElementById("winnerMessage")
+const playAgain = document.getElementById("PlayAgain")
+const SettingsReset = document.getElementById("SettingsOpen")
+
 const columnLetter = chessObj.columnId
 const chessBoard = new chessObj.chessBoard()
 
@@ -46,6 +51,8 @@ const updateBoardAlive = (alivePices) =>{
 }
 
 const pieceClick = () =>{
+    
+    if (chessBoard.lastPieceTuched === "King") { return }
     let target = event.target;
     if (target.tagName === 'IMG') {
         target = target.parentElement;  // Get the parent <div> element
@@ -58,24 +65,24 @@ const pieceClick = () =>{
     
     if (chessBoard.lastPieceTuched !== "") {
         chessBoard.updateMove(cords[0], cords[1], chessBoard.lastPieceTuched)
-        chessBoard.lastPieceTuched = ""
     }
 
     if(chessBoard.lastPieceTuched === "ded"){
         chessBoard.lastPieceTuched = ""
+    }
+    else if (chessBoard.lastPieceTuched === "King"){
+        EndGame()
     }
     else
     {
         const currPiece = chessBoard.findPiece(cords[0],cords[1])
         if(currPiece != undefined){
             updateBoardMove(currPiece.getMoves(chessBoard.getState()));  
+            
             chessBoard.lastPieceTuched= currPiece.id
         }
     }
-    
-     
     updateBoardAlive(chessBoard.pieces)
-    
 }
 
 const generateBoard = () => {
@@ -136,6 +143,19 @@ const updateGameSettings= () => {
     }
 }
 
+const rematch = ()=>{
+    winnerContainer.hidden = true
+    chessBoard.resetBoard()
+    updateBoardAlive(chessBoard.pieces)
+}
+const OpenSettings = ()=>{
+    chessBoard.emptyBoard()
+    chessContainer.hidden = true
+    settingsMenu.hidden = false
+    winnerContainer.hidden = true
+    gameBoard.innerHTML = ""
+}
+
 const StartGame = () =>{
     console.log('StartGame')
     updateGameSettings();
@@ -151,7 +171,12 @@ const StartGame = () =>{
 
     console.log(chessBoard.getStateStr())    
 }
-const EndGame = () =>{}
+const EndGame = () =>{  
+    winnerMessage.textContent = `Congratulations ${chessBoard.turn%2===0? "Black" : "White"}, You Win!`
+    winnerContainer.hidden = false
+}
 
 settingsMenu.addEventListener('click', updateGameSettings)
 startGameBtn.addEventListener('click', StartGame)
+SettingsReset.addEventListener('click', OpenSettings)
+playAgain.addEventListener('click', rematch)

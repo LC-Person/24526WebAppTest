@@ -54,6 +54,11 @@
             <button id="GameStart">Start</button>
         </fieldset>
     </div>
+    <div class="GameMenu" id="winnerContainer" hidden>
+        <h1 id="winnerMessage"> </h1>
+        <button id="PlayAgain">Remach!</button>
+        <button id="SettingsOpen">Open Settings</button>
+    </div>
     <div id="ChessContainer" hidden>
         <p>Chess Time!</p>
         <div id="ChessGame" class="Board">
@@ -62,8 +67,34 @@
     </div>
 
 </div>
-<div class="Block">
-    <p>Welcome to chess!<p>
+<div class="Block" style="p{font-size: medium;}">
+    <h2><strong>Welcome to chess!</strong></h2>
+    <p>Chess is a board game for two players, this game is sometimes refered to as 'Western Chess', this is to identify the game from similar games such as shogi (Japanese chess) and xiangqi (Chinese Chess)</p>
+    <p>The game consists of 6 different pieces:</p>
+    <ul>
+        <li><strong>The Pawn:</strong> A piece that can move upto 2 spaces forward on the first turn and take pieces diagonaly</li>
+        <li><strong>The Knight:</strong> A piece that can move in an 'L' shape in any direction</li>
+        <li><strong>The Bishop:</strong> A piece that can move N spaces diagonaly in any direction </li>
+        <li><strong>The Rook:</strong> A piece that can move N spaces verticaly and horizontaly</li>
+        <li><strong>The Queen:</strong> Arguably the most useful piece given that it is a combination of both the Rook and the Bishop</li>
+        <li><strong>The King:</strong> The most important pice, if the enemy takes it, you imediatly loose!</li>
+    </ul>
+    <p>Normal chess also has two special moves that not very many people Know about. These are the en-Passant and castling</p>
+    <img src="" alt="[en-Passant]">
+    <p>En passant occurs when a player moves their pawn 2 spaces forward and the oponent takes the pawn as if the original pawn had moved one square, think of it as a way to prevent a player to avoid an attack, this can only be done with pawn pieces</p>
+    <img src="" alt="[Castling]">
+    <p>Castling is a way to manover the king away from the center of the board. this can be done with either Rook, the movement puts the rook next to the King on the sidefrom witch the rook came, and places the king over the rook</p>
+    <img src="" alt="[CastlingCompletition]">
+    <p>This move is not all powerfull, it does have a few restrictions:</p>
+    <ul>
+        <li>There has to be a clear line of sight between the rook and the king</li>
+        <li>There can NOT be pieces in-between the Rook and the King</li>
+        <li>The squares from the king to the chosen rook can NOT be under attack (including these two pieces)</li>
+        <li>It must be the King's first move</li>
+        <li>It must be the Rook's first move</li>
+    </ul>
+    <p>If you would like to read move about how the game was ported to this site feel free to take a look at our blog area. We have a step by step section for you to follow, and you might be able to create the game and host it on your own!</p>
+
 </div>
 <script type="module" src="/Public/PageRoot/Games/Chess/chessObj.js"></script>
 <script type="module" src="/Public/PageRoot/Games/Chess/chess.js"></script>
