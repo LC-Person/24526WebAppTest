@@ -1,0 +1,168 @@
+
+<div class="Block" >
+    <div class="Block-Text">
+        <h1>Chess 1.0 is LIVE!</h1>
+        <h5>8/10/24</h5>
+        <p>Ever wonder how difficult it is to implement chess?</p>
+        <p>
+            Surprisingly not that hard, In this article I will go over the major implementations made while re-creating the game on this site, if you'd like you can actually play it by clicking <a href="/games/chess">here</a>. Anyhow here are the major points:
+        <p>
+        <ul>
+            <li> what are the plans for the website?</li>
+            <li> How is this website being ran?</li>
+            <li> How am I structuring the website?</li>
+        </ul>
+        
+    </div>
+    <div class="Block-Text">
+        <h2>Chess Engine!</h2>
+        <p>
+            The Engine I made is separated between three sections, the linting (piece move help) occurs in the main JavaScript program that the player uses to interact with the chess webpage. Linting occurs by checking if the click the user made is a valid move, then it comunicates with the ChessBoard class that is responsible for providing gameStates and keeping track of the current game turn. The linting section also comunicates with each live piece in the ChessBoard object to determine the current available moves. With the overview done lets go step-by-step.
+        </p>
+        <img src='/Public/images/chess.png' alt="ChessV1" style="margin: auto;">
+    </div>
+    <div class="Block-Text">
+        <h2>Key components:</h2>
+        <h3>Interactivity:</h3>
+        <p>
+            The chess Board functions with the following 5 main functions:
+        </p>
+        <ul>
+            <li><b>generateBoard()</b> : Creates the Board and deletes to reset the game</li>
+            <li><b>pieceClick()</b> : Responsible for the interactivity between the squares and creates move calls to the ChessBoard to check for validity</li>
+            <li><b>updateBoardAlive()</b> : after a turn has been sucessfully compleated, this function updates the board to check which pieces are alive and places them on the board</li>
+            <li><b>updateBoardCellPrep()</b> : clears all linting made from previous turns, this is to prepare if a calid move is going to be made or if a piece has moved from a square </li>
+            <li><b>updateBoardMove()</b> : if a valid move is made on the square clicked the square that the piece can traverse to will be highlighted with a gray background indicating that it is a posible next move</li>
+        </ul>
+
+        <img src="/Public/images/chessV1Lint.png" alt="chessInteractive" style="margin: auto;">
+        <p>
+            Lets go overthem with code! 
+        </p>
+        <p>
+            Since <b>updateBoardCellPrep</b>, <b>updateBoardAlive</b>, and <b>updateBoardMove</b> are very similar in practice, I am only going to go over updateBoardMove.
+        </p>
+        <div class="Block-Code" style="margin: auto;">
+            <h1>JavaScript</h1>
+            <p>const updateBoardMove = (moves)=>{ </p>
+                <p>    moves.forEach(element => { </p>
+                <p>        const currBlock = BoardBlocks[`${columnLetter[element[0]]}-${element[1]}`] </p>
+                <p>        if (currBlock){currBlock.style.backgroundColor ='gray'} </p>
+            <p>    });</p>
+            <p>}</p>
+        </div>
+        <p>
+            These functions are fairly simple to implement, this function also uses a variable named <b>'BoardBlocks'</b>. The variable holds a reference to the corresponding html element such that we don't have to request them everytime we want to change them, this change may not save much time in practice but it is a good habit to have. To use this function we are passing a list of <u>valid moves</u> the user can make as coordinates and parsing them as rank and column. For example if the move is [1, 3, PW1] the move gets translated to `a-3` and the corresponding square with the id will be selected and the background changed to gray.
+        </p>
+        <p>Lets go over something a bit more interesting: </p>
+        <div class="Block-Code" style="margin: auto;">
+            <h1>JavaScript</h1>
+            
+            <p>const generateBoard = () => { </p>
+            <p>    const size = 8; </p>
+            <p>    BoardBlocks = {} </p>
+            <p></p>
+            <p>    for (let rank =1; rank <= size; rank++){ </p>
+            <p>        for (let col = 0; col< size; col++){ </p>
+            <p>            const block = document.createElement('div') </p>
+            <p>            const id = columnLetter[col] + '-' + (size-rank) </p>
+            <p>            block.id = id </p>
+            <p> </p>
+            <p>            if((rank+col) %2 === 1){ </p>
+            <p>                block.classList.add('White') </p>
+            <p>            } </p>
+            <p>             else </p>
+            <p>            { </p>
+            <p>                block.classList.add('Black') </p>
+            <p>            } </p>
+            <p> </p>
+            <p>            block.addEventListener('click', pieceClick) </p>
+            <p>            gameBoard.appendChild(block) </p>
+            <p></p>
+            <p>            BoardBlocks[id] = block </p>
+            <p>        } </p>
+            <p>    } </p>
+            <p>} </p>
+        </div>
+        <p>
+            Generate Board functions by overriding the old reference locations in BoardBlocks and creating new div elements with the corresponding ids on the board, this also attributes the class of the corresponding color such that I am able to change the color back after linting.
+        </p>
+        <p>
+            Pay special attention to the event listener, this is how we make the squares in the board interactive, when we click on these squares we make a call to the pieceClick function that ties everything together
+        </p>
+        <p>
+            Notice that we have not made any calls to the ChessBoard object? this is because the first implementation was made before the gameSettings menu was created, I took too long in writing this article and just kept updating the game, the old version you would need to refresh the page to restart/rematch with the opponent, this is no longer the case but we will go over the control flow in a later section.
+        </p>
+
+        <p>
+        <b>BEAR WITNESS</b> to the original piece selector code and our introduction to the chessBoard calls!
+        </p>
+
+        <div class="Block-Code" style="margin: auto;">
+            <h1>JavaScript</h1>
+            <p>const pieceClick = () =>{</p>
+            <p> if (chessBoard.lastPieceTuched === "King") { return } </p>
+            <p> let target = event.target; </p>
+            <p> if (target.tagName === 'IMG') { </p>
+            <p>     target = target.parentElement;  // Get the parent &lt;div> element </p>
+            <p> } </p>
+            <p> const id = target.id </p>
+            <p> let cords = id.split('-') </p>
+            <p> cords = [columnLetter.indexOf(cords[0]), parseInt(cords[1])] </p>
+            <p> console.log(`hi from ${id}, ${cords}`) </p>
+            <p> updateBoardCellPrep() </p>
+            <p>  </p>
+            <p> if (chessBoard.lastPieceTuched !== "") { </p>
+            <p>     chessBoard.updateMove(cords[0], cords[1], chessBoard.lastPieceTuched) </p>
+            <p> } </p>
+            <p>  </p>
+            <p> if(chessBoard.lastPieceTuched === "ded"){ </p>
+            <p>     chessBoard.lastPieceTuched = "" </p>
+            <p> } </p>
+            <p> else if (chessBoard.lastPieceTuched === "King"){ </p>
+            <p>     EndGame() </p>
+            <p> } </p>
+            <p> else </p>
+            <p> { </p>
+            <p>     const currPiece = chessBoard.findPiece(cords[0],cords[1]) </p>
+            <p>     if(currPiece != undefined){ </p>
+            <p>         updateBoardMove(currPiece.getMoves(chessBoard.getState()));   </p>
+            <p>          </p>
+            <p>         chessBoard.lastPieceTuched= currPiece.id </p>
+            <p>     } </p>
+            <p> } </p>
+            <p>}</p>
+            <p>updateBoardAlive(chessBoard.pieces) </p>
+        </div>
+
+        <p>The <b>pieceClick</b> function can be treated as two sections: <b>Location Identification</b> and <b>Move Reaction</b></p>
+        <p>
+            <b>Location Identification</b> begins at the first 'if' and ends with 'updateBoardCellPrep'. This section focuses on identifying where the move camefrom. We frist parse the target from the event that called the function and get the div block that this call belongs to. We then we extract and parse the id into the coordinates and savethem into a cords array. for the next section. To conclude we prepare the board by clearing any efects left by the previous call with updateBoardCellPrep
+        </p>
+        <p>
+            <b>Move Reaction</b> refers to the rest of the function, we identify key states in the gameBoard with the "lastPieceTuched" variable. In practice the lastPieceTuched will almost entierly conten the id of a piece or a blank value representing an empty space,
+            in this itteration there are 2 states that are saved for special ocations:
+            <ul>
+                <li><i>ded</i>: This reffers to the last move being capture move. this is to avoid issues with piece dettection and linting. During the move made the state will be 'ded' such that we dont try to make a strange move and the logic continues as normal</li>
+                <li><i>King</i>: This State represents a GameOver, the king was captured and we do not need to continue the game, this state triggers "endgame" and prompts the user for a rematch or change game settings</li>
+            </ul>
+
+            Going in order, we locate the piece and ask the chessBoard if the selected block contains a piece we can move, if this is the case then 4 things can happen:
+            <ul>
+                <ol><b>previous piece = ''</b>: this is a new move so we update the valid moves in linting if the selected square contains a piece</ol>
+                <ol><b>previous piece = {piece.id}</b>: this is valid move the user is trying to make, so we call the chessBoard and ask if the move is posible</ol>
+                <ol><b>previous piece = 'ded'</b>: we just capruerd a piece and we need to reset the state</ol>
+                <ol><b>previous piece = 'King'</b>: one of the players won the game, we trigger the EndGame function</ol>
+            </ul>
+            After one of the options has occured we re-draw the board with updateBoardAlive.
+        </p>
+
+
+        <h3>ChessBoard Object Logic:</h3>
+
+        
+        <h3>Piece class Logic:</h3>
+
+    </div>
+
+</div>

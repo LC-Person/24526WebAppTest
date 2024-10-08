@@ -17,6 +17,8 @@ const winnerMessage = document.getElementById("winnerMessage")
 const playAgain = document.getElementById("PlayAgain")
 const SettingsReset = document.getElementById("SettingsOpen")
 
+let BoardBlocks = {}
+
 const columnLetter = chessObj.columnId
 const chessBoard = new chessObj.chessBoard()
 
@@ -27,71 +29,110 @@ const gameSettings = {
     LobbyHost       :false,
     LobbyIp         :""
 }
+//Online Local AI
+let PLAYERS = ['', '']
+let AI = null
 
 const updateBoardMove = (moves)=>{
     moves.forEach(element => {
-        const currBlock = document.getElementById(`${columnLetter[element[0]]}-${element[1]}`)
-        currBlock.style.backgroundColor ='gray'
+        const currBlock = BoardBlocks[`${columnLetter[element[0]]}-${element[1]}`]
+        if (currBlock){currBlock.style.backgroundColor ='gray'}
     });
 }
 
 const updateBoardCellPrep = ()=>{
-    Array.from(gameBoard.children).forEach(element => {
-        element.style.backgroundColor = (element.className === 'White') ? 'white' : 'rgb(133, 66, 4)';
-        element.innerHTML = ""
-    });
+    for (const [key, value] of Object.entries(BoardBlocks)){
+        value.style.backgroundColor = (value.className === 'White') ? 'white' : 'rgb(133, 66, 4)';
+        value.innerHTML = ""
+    }
 }
 
 const updateBoardAlive = (alivePices) =>{
     for (const piece of alivePices){
-        const block = document.getElementById(`${columnLetter[piece.col]}-${piece.rank}`)
-        block.style.color = piece.color ? 'brown':'white'
-        block.innerHTML = `<img src="${piece.img}">`
+        const block = BoardBlocks[`${columnLetter[piece.col]}-${piece.rank}`]
+        if(block){
+            block.style.color = piece.color ? 'brown':'white'
+            block.innerHTML = `<img src="${piece.img}">`
+        }
     }
 }
 
-const pieceClick = () =>{
-    
-    if (chessBoard.lastPieceTuched === "King") { return }
-    let target = event.target;
-    if (target.tagName === 'IMG') {
-        target = target.parentElement;  // Get the parent <div> element
+const updateBoardMoveHelp = (x,y) => {
+    const currPiece = chessBoard.findPiece(x,y)
+    if(currPiece != undefined){
+        updateBoardMove(currPiece.getMoves(chessBoard.getDetailState()));  
+        chessBoard.targetPiece= currPiece.id
     }
+}
+
+const Human_Play = () =>{}
+const COM_PLay = () => {
+    return AI.getNextMove(chessBoard.pieces, chessBoard.getDetailState())
+}
+
+const pieceClick = () =>{
+    console.log(chessBoard.getStateStr())    
+    console.log(chessBoard.turn, chessBoard.targetPiece)
+    //check if the game has ended
+    if (chessBoard.targetPiece === "GG") { return }
+    
+    
+    let target = event.target;
+    if (target.tagName === 'IMG') { target = target.parentElement }
     const id = target.id
+    
     let cords = id.split('-')
     cords = [columnLetter.indexOf(cords[0]), parseInt(cords[1])]
-    console.log(`hi from ${id}, ${cords}`)
     updateBoardCellPrep()
-    
-    if (chessBoard.lastPieceTuched !== "") {
-        chessBoard.updateMove(cords[0], cords[1], chessBoard.lastPieceTuched)
+
+    let NextMove = []
+    switch (PLAYERS[(chessBoard.turn +1)% 2]){
+        case ('Online'):
+            break
+        case ('AI'):
+            NextMove = COM_PLay()
+            chessBoard.updateMove(NextMove[0],NextMove[1],NextMove[2])
+            break
+        case ('Local'):
+        default:
+            if (chessBoard.targetPiece !== ""){
+                chessBoard.updateMove(cords[0],cords[1], chessBoard.targetPiece)
+            }
+
+    }
+    /*
+    //temp hyjack
+    if (chessBoard.targetPiece !== ""){
+        chessBoard.updateMove(cords[0],cords[1], chessBoard.targetPiece)
+    }
+    */
+
+    if (chessBoard.targetPiece === "GameEnded"){
+        chessBoard.targetPiece = "GG"
+        EndGame()
+    } 
+    if (chessBoard.targetPiece === "Valid") { 
+        chessBoard.targetPiece = ''
+    }
+    else if (chessBoard.targetPiece !== "GG"){
+        updateBoardMoveHelp(cords[0],cords[1])
     }
 
-    if(chessBoard.lastPieceTuched === "ded"){
-        chessBoard.lastPieceTuched = ""
-    }
-    else if (chessBoard.lastPieceTuched === "King"){
-        EndGame()
-    }
-    else
-    {
-        const currPiece = chessBoard.findPiece(cords[0],cords[1])
-        if(currPiece != undefined){
-            updateBoardMove(currPiece.getMoves(chessBoard.getState()));  
-            
-            chessBoard.lastPieceTuched= currPiece.id
-        }
-    }
     updateBoardAlive(chessBoard.pieces)
+    
+    console.log(chessBoard.turn, chessBoard.targetPiece)
 }
 
 const generateBoard = () => {
     const size = 8;
+    BoardBlocks = {}
     
     for (let rank =1; rank <= size; rank++){
         for (let col = 0; col< size; col++){
             const block = document.createElement('div')
-            block.id = columnLetter[col] + '-' + (size-rank)
+            const id = columnLetter[col] + '-' + (size-rank)
+            block.id = id
+
             if((rank+col) %2 === 1){
                 block.classList.add('White')
             }
@@ -99,8 +140,11 @@ const generateBoard = () => {
             {
                 block.classList.add('Black')
             }
+
             block.addEventListener('click', pieceClick)
             gameBoard.appendChild(block)
+
+            BoardBlocks[id] = block
         }
     }
 }
@@ -113,7 +157,7 @@ const updateGameSettings= () => {
 
     if (gameSettings['playerOption'] > 0){
         colorSelector.hidden = false;
-        gameSettings['playerColor'] = parseInt(document.querySelector('input[name=Dificulty]:checked').value === 0) ? 0:1
+        gameSettings['playerColor'] = parseInt(document.querySelector('input[name=Color]:checked').value )
     }
 
     //TODO:For Multyplayer Make change IP to player's ip if hosting the game
@@ -146,6 +190,7 @@ const updateGameSettings= () => {
 const rematch = ()=>{
     winnerContainer.hidden = true
     chessBoard.resetBoard()
+    updateBoardCellPrep()
     updateBoardAlive(chessBoard.pieces)
 }
 const OpenSettings = ()=>{
@@ -169,6 +214,20 @@ const StartGame = () =>{
     
     updateBoardAlive(chessBoard.pieces)
 
+    if(gameSettings['playerOption'] === 0){
+        PLAYERS = ['Local', 'Local']
+    } else if (gameSettings['playerOption'] === 1) {
+        const pColor = gameSettings['playerColor'] === 1 
+        PLAYERS = pColor ? ['Local', 'AI'] : ['AI', 'Local']
+        switch (gameSettings['ComDificulty']){
+            case(1):
+                AI = new chessObj.GeedAI(!pColor)
+                break
+            case(0):
+            default:        
+                AI = new chessObj.EzAI(!pColor)
+        }
+    }
     console.log(chessBoard.getStateStr())    
 }
 const EndGame = () =>{  
